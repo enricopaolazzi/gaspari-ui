@@ -1,6 +1,12 @@
-// Colors
+// Colors SASS
 $primary_color: #f58234;
 $secondary_color: #576b81;
+
+// Colors CSS
+:root {
+    --primary-color: #{$primary_color};
+    --secondary-color: #{$secondary_color};
+} 
 
 // Text Sizes
 $text_2xs: 12px;

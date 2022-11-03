@@ -4,42 +4,55 @@
 
 		<generic-input
 			type="text"
-			@update="handleInputChange"
 			placeholder="Aggiungi un placeholder"
 			label="Lorem ipsum"	
-			disabled		
+			v-model="name"	
 		></generic-input>	
 
 		<custom-text-area
 			label="ratataaa"
-			@update="handleInputChange"
 			placeholder="Aggiungi un placeholdert"
 			modelValue="ggg"
-			disabled
+			disabled			
 		/>
 
+		<div style="padding: 8px">
+			<custom-checkbox
+				label="porca troiaW"
+				value="react"
+				v-model:checked="selected"	
+				:disabled="true"						
+			/>			
+		</div>		
+
+		<div>{{selected}}</div>				
 	</div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import GenericInput from "./ui/GenericInput.vue";
 import CustomTextArea from "./ui/CustomTextArea.vue";
+import CustomCheckbox from "./ui/CustomCheckbox.vue";
 
 export default defineComponent({
 	name: 'HelloWorld',	
 	components: {
 		GenericInput,
-		CustomTextArea
+		CustomTextArea,
+		CustomCheckbox
 	},
 	setup() {
-		let name = 'Gianni';
+		const name = ref<string>('Gianni');		
+		let selectedValues = ref<string[]>(['Angular']);
 
-		const handleInputChange = (e : string | number) => {
-			console.log(e);
+		const selected = ref<boolean>(false);
+
+		const test = (e) => {
+			console.log(e)
 		}
 
-		return { name, handleInputChange }
+		return { name, selectedValues, selected, test }
 	}
 });
 </script>
