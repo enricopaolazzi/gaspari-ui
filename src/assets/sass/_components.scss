@@ -40,6 +40,7 @@
         &[disabled] {
             background-color: #f5f6f8;
             color: lighten($color: $secondary_color, $amount: 10);
+            cursor: not-allowed;
 
             &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
                 color: lighten($color: $secondary_color, $amount: 40);
