@@ -4,6 +4,8 @@
             {{ label }}
         </label>
 
+        <!-- INSERIRE PREPEND STILIZZARE -->
+        <slot name="prepend"></slot>
         <input
             v-if="!readOnly"
             v-bind="$attrs" 

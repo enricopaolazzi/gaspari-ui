@@ -10,12 +10,15 @@
 			:read-only="true"
 		></generic-input>	
 
+		<!-- INSERIRE PREPEND STILIZZARE -->
 		<generic-input
 			type="number"
-			placeholder="Aggiungi un placeholder"
-			label="Lorem ipsum"	
+			placeholder="Aggiungi prezzo"
+			label="Prezzo"	
 			max="100"	
-		></generic-input>	
+		>
+			<template v-slot:prepend>€</template>
+		</generic-input>
 
 		<generic-input
 			type="date"
