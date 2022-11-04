@@ -5,10 +5,15 @@
         </label>
 
         <input
+            v-if="!readOnly"
             v-bind="$attrs" 
             v-model="computedValue"
             :class="'generic-input__input ' + classes" 
         >
+
+        <div v-if="readOnly" class="generic-input__read-only">
+            {{ computedValue }}
+        </div>
    </div>
 </template>
 
@@ -31,6 +36,10 @@ export default defineComponent({
         label: {
             type: String as PropType<string>,
             required: false
+        },
+        readOnly: {
+            type: Boolean as PropType<boolean>,
+            default: false
         }
     },
     setup(props, { emit }) {

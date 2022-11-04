@@ -88,9 +88,10 @@ label.wrapper.flex.items-center.disabled {
   left: 0;
   height: 21px;
   width: 21px;
-  border-radius: 2px;
+  border-radius: 4px;
   background-color: #FFFFFF;
   border: 1px solid lighten($color: $secondary_color, $amount: 40);
+  transition: all .2s ease-out;
 }
 
 /* On mouse-over*/

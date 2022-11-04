@@ -22,7 +22,7 @@ export default defineComponent({
     },
     props: {
         value: {
-            type: Array as PropType<any[]>,
+            type: Array as PropType<Array<string | number>>,
         },
         options: {
             type: Array as PropType<MultiCheckboxOptions[]>,
@@ -47,7 +47,3 @@ export default defineComponent({
     },
 });
 </script>
-
-<style>
-
-</style>

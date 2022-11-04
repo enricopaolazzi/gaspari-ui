@@ -7,12 +7,26 @@
 			placeholder="Aggiungi un placeholder"
 			label="Lorem ipsum"	
 			v-model="name"	
+			:read-only="true"
+		></generic-input>	
+
+		<generic-input
+			type="number"
+			placeholder="Aggiungi un placeholder"
+			label="Lorem ipsum"	
+			max="100"	
+		></generic-input>	
+
+		<generic-input
+			type="date"
+			placeholder="Aggiungi un placeholder"
+			label="Lorem ipsum"	
+			v-model="name"	
 		></generic-input>	
 
 		<custom-text-area
 			label="ratataaa"
 			placeholder="Aggiungi un placeholdert"
-			modelValue="ggg"
 			disabled			
 		/>
 
@@ -21,6 +35,7 @@
 				label="porca troiaW"
 				value="react"
 				v-model:checked="selected"	
+				:disabled="true"
 			/>				
 		</div>	
 
@@ -33,6 +48,29 @@
 				v-model:value="heroes"				
 			/>
 		</div>	
+
+		<div style="padding: 8px">			
+			<custom-radio-group
+				:options="[
+					{
+						id: 'input_444',
+						label: 'Radio 1',
+						value: 'radio_1',
+						name: 'radio_group',						
+						disabled: true
+					},
+					{
+						id: 'input_445',
+						label: 'Radio 2',
+						value: 'radio_2',
+						name: 'radio_group',
+					}
+				]"
+				v-model:value="selectedRadioValue"
+			/>
+
+			<div>SelectedRadio: {{ selectedRadioValue }}</div>
+		</div>	
 	</div>
 </template>
 
@@ -43,6 +81,7 @@ import CustomTextArea from "./ui/CustomTextArea.vue";
 import CustomCheckbox from "./ui/CustomCheckbox.vue";
 import MultiCheckboxOptions from '../types/MultiCheckboxOptions';
 import CustomMultiCheckbox from "./ui/CustomMultiCheckbox.vue";
+import CustomRadioGroup from './ui/CustomRadioGroup.vue';
 
 export default defineComponent({
 	name: 'HelloWorld',	
@@ -50,7 +89,8 @@ export default defineComponent({
 		GenericInput,
 		CustomTextArea,
 		CustomCheckbox,
-		CustomMultiCheckbox
+		CustomMultiCheckbox,
+		CustomRadioGroup
 	},
 	setup() {
 		const name = ref<string>('Gianni');		
@@ -58,23 +98,25 @@ export default defineComponent({
 
 		const selected = ref<boolean>(true);
 
-		const heroes = ref<number[]>([1,3,5]);
+		const heroes = ref<string[]>(['Luther','Ben', 'Vanya']);
 
 		const options = ref<MultiCheckboxOptions[]>([
-			{ label: "Luther", id: 1 },
+			{ label: "Luther", id: 'Luther' },
 			{ label: "Diego", id: 2 },
 			{ label: "Allison", id: 3 },
 			{ label: "Klaus", id: 4 },
 			{ label: "Five", id: 5 },
-			{ label: "Ben", id: 6 },
-			{ label: "Vanya", id: 7 },
+			{ label: "Ben", id: 'Ben' },
+			{ label: "Vanya", id: 'Vanya' },
 		]);
+
+		const selectedRadioValue = ref<number | string>('radio_1');
 
 		const test = (e) => {
 			console.log(e)
 		}
 
-		return { name, selectedValues, selected, test, heroes, options }
+		return { name, selectedValues, selected, test, heroes, options, selectedRadioValue }
 	}
 });
 </script>
