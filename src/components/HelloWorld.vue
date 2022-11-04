@@ -71,6 +71,28 @@
 
 			<div>SelectedRadio: {{ selectedRadioValue }}</div>
 		</div>	
+
+		<div style="padding: 8px; margin-bottom: 500px">			
+			<custom-select
+				name="custom_select"
+				label="Seleziona"
+				:options="[
+					{
+						value: 1,
+						label: 'Giovanni'
+					},
+					{
+						value: 2,
+						label: 'Mario'
+					},
+					{
+						value: 3,
+						label: 'Andrea'
+					},
+				]"
+				v-model:value="selectedOption"
+			/>			
+		</div>	
 	</div>
 </template>
 
@@ -82,6 +104,7 @@ import CustomCheckbox from "./ui/CustomCheckbox.vue";
 import MultiCheckboxOptions from '../types/MultiCheckboxOptions';
 import CustomMultiCheckbox from "./ui/CustomMultiCheckbox.vue";
 import CustomRadioGroup from './ui/CustomRadioGroup.vue';
+import CustomSelect from './ui/CustomSelect.vue';
 
 export default defineComponent({
 	name: 'HelloWorld',	
@@ -90,7 +113,8 @@ export default defineComponent({
 		CustomTextArea,
 		CustomCheckbox,
 		CustomMultiCheckbox,
-		CustomRadioGroup
+		CustomRadioGroup,
+		CustomSelect
 	},
 	setup() {
 		const name = ref<string>('Gianni');		
@@ -112,11 +136,13 @@ export default defineComponent({
 
 		const selectedRadioValue = ref<number | string>('radio_1');
 
+		const selectedOption = ref<number | string>(null);
+
 		const test = (e) => {
 			console.log(e)
 		}
 
-		return { name, selectedValues, selected, test, heroes, options, selectedRadioValue }
+		return { name, selectedValues, selected, test, heroes, options, selectedRadioValue, selectedOption }
 	}
 });
 </script>

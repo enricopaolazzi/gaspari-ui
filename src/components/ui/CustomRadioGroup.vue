@@ -41,7 +41,7 @@ export default defineComponent({
         },
         value: {
             type: [Number, String] as PropType<number | string>
-        }
+        },        
     },
     setup(props, context) {                           
         const checkRadio = ({ target }) => {
