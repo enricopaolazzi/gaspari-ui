@@ -1,53 +1,50 @@
 <template>
-	<label class="wrapper flex items-center">
+	<label class="wrapper flex items-center" :class="{ 'disabled': disabled }">
 		{{label}}
 		<input 
 			class="checkbox" 
 			type="checkbox" 
-			:checked="isChecked" 
+			:checked="checked" 
 			:value="value" 
 			@change="updateInput"
 			:disabled="disabled"
+			:name="name"
 		/>
 		<span class="checkmark"></span>
 	</label>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "@vue/runtime-core";
+import { defineComponent, PropType } from "vue";
 
 export default defineComponent({
 	name: 'CustomSingleCheckbox',
-	model: {
-		prop: 'modelValue',
-		event: 'change'
-	},
 	props: {
-		"value": { type: String },
-		"modelValue": { 
+		value: { 
+			type: String 
+		},
+		modelValue: { 
 			type: Boolean as PropType<boolean>, 			
 		},
 		disabled: {
 			type: Boolean as PropType<boolean>,
 			default: false,
 		},
-		"label": { type: String, required: true},
-		"trueValue": { default: true },
-		"falseValue": { default: false }
-	},	
-	computed: {
-		isChecked() : boolean {				
-			if (this.modelValue instanceof Array) {
-				return this.modelValue.includes(this.value)
-			}
-			// Note that `true-value` and `false-value` are camelCase in the JS
-			return this.modelValue === this.trueValue
+		label: { 
+			type: String, 
+			required: true,
+		},
+		name: {
+			type: String as PropType<string>,
+			default: ''
+		},
+		checked: {
+			type: Boolean as PropType<boolean>
 		}
 	},
 	methods: {
 		updateInput(event) : void {					
-			let isChecked = event.target.checked						
-			this.$emit('update:checked', isChecked ? this.trueValue : this.falseValue)			
+			this.$emit('update:checked', event.target.checked);			
 		}
 	}
 })
@@ -56,7 +53,13 @@ export default defineComponent({
 <style lang="scss" scoped>
 label.wrapper.flex.items-center {
 	color: $secondary_color;
+	margin-bottom: 15px;
 }
+label.wrapper.flex.items-center.disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
 .wrapper {
   display: block;
   position: relative;
