@@ -10,7 +10,6 @@
 			:read-only="true"
 		></generic-input>	
 
-		<!-- INSERIRE PREPEND STILIZZARE -->
 		<generic-input
 			type="number"
 			placeholder="Aggiungi prezzo"
@@ -77,7 +76,7 @@
 			<div>SelectedRadio: {{ selectedRadioValue }}</div>
 		</div>	
 
-		<div style="padding: 8px; margin-bottom: 500px">			
+		<div style="padding: 8px">			
 			<custom-select
 				name="custom_select"
 				label="Seleziona"
@@ -96,7 +95,14 @@
 					},
 				]"
 				v-model:value="selectedOption"
-			/>			
+			/>									
+		</div>	
+
+		<div style="padding: 8px; margin-bottom: 500px">			
+			<custom-multi-select
+				label="Seleziona"
+				placeholder="Seleziona opzione"
+			/>									
 		</div>	
 	</div>
 </template>
@@ -110,6 +116,7 @@ import MultiCheckboxOptions from '../types/MultiCheckboxOptions';
 import CustomMultiCheckbox from "./ui/CustomMultiCheckbox.vue";
 import CustomRadioGroup from './ui/CustomRadioGroup.vue';
 import CustomSelect from './ui/CustomSelect.vue';
+import CustomMultiSelect from './ui/CustomMultiSelect.vue';
 
 export default defineComponent({
 	name: 'HelloWorld',	
@@ -119,7 +126,8 @@ export default defineComponent({
 		CustomCheckbox,
 		CustomMultiCheckbox,
 		CustomRadioGroup,
-		CustomSelect
+		CustomSelect,
+		CustomMultiSelect
 	},
 	setup() {
 		const name = ref<string>('Gianni');		

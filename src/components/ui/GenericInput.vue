@@ -72,7 +72,7 @@ export default defineComponent({
     font-weight: 500;
 
     & ~ .generic-input__input {
-        padding-left: 30px;
+        padding-left: 40px;
     }
 }
 
