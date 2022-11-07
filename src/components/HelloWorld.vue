@@ -17,7 +17,9 @@
 			label="Prezzo"	
 			max="100"	
 		>
-			<template v-slot:prepend>€</template>
+			<template v-slot:prepend>
+				<div class="slot-price">€</div>
+			</template>
 		</generic-input>
 
 		<generic-input

@@ -5,13 +5,15 @@
         </label>
 
         <!-- INSERIRE PREPEND STILIZZARE -->
-        <slot name="prepend"></slot>
-        <input
-            v-if="!readOnly"
-            v-bind="$attrs" 
-            v-model="computedValue"
-            :class="'generic-input__input ' + classes" 
-        >
+        <div class="input-container">
+            <slot name="prepend"></slot>
+            <input
+                v-if="!readOnly"
+                v-bind="$attrs" 
+                v-model="computedValue"
+                :class="'generic-input__input ' + classes" 
+            >
+        </div>
 
         <div v-if="readOnly" class="generic-input__read-only">
             {{ computedValue }}
@@ -59,3 +61,22 @@ export default defineComponent({
     }
 })
 </script>
+
+<style lang="scss">
+.slot-price {
+    color: $secondary_color;
+    position: absolute;
+    left: 10px;    
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: 500;
+
+    & ~ .generic-input__input {
+        padding-left: 30px;
+    }
+}
+
+.generic-input .input-container {
+    position: relative;
+}
+</style>
