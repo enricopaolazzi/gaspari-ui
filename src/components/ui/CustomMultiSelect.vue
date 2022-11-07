@@ -13,6 +13,8 @@
             :options="options"
             class="custom-multiselect__select"
             :placeholder="placeholder"
+            :multiple="true"
+            :close-on-select="false"
         ></vue-multiselect>        
     </div>
 </template>
@@ -55,6 +57,7 @@ export default defineComponent({
     display: flex;
     flex-direction: column;    
 
+
     &__label {
         color: $secondary_color;
         margin-bottom: 10px;
@@ -63,17 +66,34 @@ export default defineComponent({
     }
 
     &__select {        
-        background-color: #fff;  
-        color: $secondary_color;
-        
-        span.multiselect__placeholder {
+        color: $secondary_color;      
+
+        .multiselect__placeholder {
             font-size: 16px;
             color: $secondary_color;
         }
-
+        
         .multiselect__tags {
-            padding-left: 10px;
+            padding-left: 12px;
             border-color: lighten($color: $secondary_color, $amount: 40);
+
+            .multiselect__tag {
+                background-color: $primary_color;
+                
+                i.multiselect__tag-icon:after {
+                    color: #fff
+                }
+            }
+        }
+
+        .multiselect__element {
+            .multiselect__option--selected.multiselect__option::after {
+                color: $primary_color;
+            }
+
+            .multiselect__option--highlight.multiselect__option--selected.multiselect__option::after {
+                color: #ffffff;
+            }                       
         }
     }
 }
