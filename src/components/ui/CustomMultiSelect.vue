@@ -15,13 +15,38 @@
             :placeholder="placeholder"
             :multiple="true"
             :close-on-select="false"
-        ></vue-multiselect>        
+            selectLabel="Seleziona"
+            selectedLabel="Selezionato"
+            deselectLabel="Rimuovi"
+            track-by="label"
+            @search-change="find"
+        >     
+            <template v-slot:noResult>
+                Nessun risultato.
+            </template>   
+
+            <template v-slot:tag="props">                                
+                <div class="multiselect__tags-wrap">
+                    <span class="multiselect__tag">
+                        <span>
+                            {{ props.option.label }}
+                        </span>
+                        <i @click="removeOption(props.option)" tabindex="1" class="multiselect__tag-icon"></i>
+                    </span>
+                </div>
+            </template> 
+
+            <template v-slot:option="props">
+                {{ props.option.label }}
+            </template>
+        </vue-multiselect>        
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import VueMultiselect from 'vue-multiselect'
+import VueMultiselect from 'vue-multiselect';
+import SelectOptions from '../../types/SelectOptions';
 
 export default defineComponent({
     name: 'CustomMultiSelect',
@@ -38,16 +63,37 @@ export default defineComponent({
         VueMultiselect
     },
     data () {
-      return {
-        value: null,
-        options: ['list', 'of', 'options']
-      }
+        return {
+            value: null,
+            options: [
+                {
+                    label: 'Opzione 1',
+                    value: 1
+                },
+                {
+                    label: 'Opzione 2',
+                    value: 2
+                },
+                {
+                    label: 'Opzione 3',
+                    value: 3
+                },
+            ]
+        }
+    },
+    methods: {
+        removeOption(option) {
+            const optionIndex : number = this.value.findIndex((_option : SelectOptions) => {
+                return _option.label === option.label && _option.value === option.value; 
+            }) 
+            const duplicatedOptions = this.value;
+            duplicatedOptions.splice(optionIndex, 1);
+            this.value = duplicatedOptions;
+        },
+        find(e) {
+            console.log(e);
+        }
     }
-    // setup(props) {
-    //     const value = ref<string | integer>(null);
-
-    //     const op
-    // }
 });
 </script>
 
@@ -56,7 +102,6 @@ export default defineComponent({
 .custom-multiselect {
     display: flex;
     flex-direction: column;    
-
 
     &__label {
         color: $secondary_color;
