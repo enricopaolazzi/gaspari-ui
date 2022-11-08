@@ -98,12 +98,40 @@
 			/>									
 		</div>	
 
-		<div style="padding: 8px; margin-bottom: 500px">			
+		<div style="padding: 8px">			
 			<custom-multi-select
 				label="Seleziona"
 				placeholder="Seleziona opzione"
-			/>									
-		</div>	
+				:options="[
+					{
+						label: 'Opzione 1',
+						value: 1
+					},
+					{
+						label: 'Opzione 2',
+						value: 2
+					},
+					{
+						label: 'Opzione 3',
+						value: 3
+					},
+				]"
+				v-model:selectedOptions="selectedMultiSelectOptions"
+			/>			
+
+			<div>{{ selectedMultiSelectOptions }}</div>									
+		</div>
+
+		<div style="padding: 8px; margin-bottom: 500px">			
+			<custom-multi-select-async
+				label="Seleziona"
+				placeholder="Seleziona opzione"
+				v-model:selectedOptions="selectedMultiSelectAsyncOptions"
+				optionsSearchRoute="http://localhost:8000/data"
+			/>			
+
+			<div>{{ selectedMultiSelectAsyncOptions }}</div>									
+		</div>
 	</div>
 </template>
 
@@ -117,6 +145,8 @@ import CustomMultiCheckbox from "./ui/CustomMultiCheckbox.vue";
 import CustomRadioGroup from './ui/CustomRadioGroup.vue';
 import CustomSelect from './ui/CustomSelect.vue';
 import CustomMultiSelect from './ui/CustomMultiSelect.vue';
+import CustomMultiSelectAsync from './ui/CustomMultiSelectAsync.vue';
+import SelectOptions from '../types/SelectOptions';
 
 export default defineComponent({
 	name: 'HelloWorld',	
@@ -127,7 +157,8 @@ export default defineComponent({
 		CustomMultiCheckbox,
 		CustomRadioGroup,
 		CustomSelect,
-		CustomMultiSelect
+		CustomMultiSelect,
+		CustomMultiSelectAsync
 	},
 	setup() {
 		const name = ref<string>('Gianni');		
@@ -151,11 +182,39 @@ export default defineComponent({
 
 		const selectedOption = ref<number | string>(null);
 
+		const selectedMultiSelectOptions = ref<Array<string> | Array<number>>([1, 2]);
+
+		const selectedMultiSelectAsyncOptions = ref<Array<SelectOptions>>([
+			{
+				label: 'Opzione 1',
+				value: 1
+			},
+			{
+				label: 'Opzione 2',
+				value: 2
+			},
+			{
+				label: 'Opzione 3',
+				value: 3
+			},
+		]);
+
 		const test = (e) => {
 			console.log(e)
 		}
 
-		return { name, selectedValues, selected, test, heroes, options, selectedRadioValue, selectedOption }
+		return { 
+			name, 
+			selectedValues, 
+			selected, 
+			test, 
+			heroes, 
+			options, 
+			selectedRadioValue, 
+			selectedOption, 
+			selectedMultiSelectOptions ,
+			selectedMultiSelectAsyncOptions
+		}
 	}
 });
 </script>

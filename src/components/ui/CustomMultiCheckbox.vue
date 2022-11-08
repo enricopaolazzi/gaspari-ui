@@ -39,6 +39,7 @@ export default defineComponent({
             } else {
                 updatedValue.splice(updatedValue.indexOf(optionId), 1);
             }
+
             // emit the updated value
             context.emit("update:value", updatedValue);
         };

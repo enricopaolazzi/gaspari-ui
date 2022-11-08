@@ -1,0 +1,44 @@
+{
+    "data": [
+        {
+            "label": "AAAA",
+            "value": 1
+        },
+        {
+            "label": "BBBB",
+            "value": 2
+        },
+        {
+            "label": "CCCC",
+            "value": 3
+        },
+        {
+            "label": "DDDD",
+            "value": 4
+        },
+        {
+            "label": "EEEE",
+            "value": 5
+        },
+        {
+            "label": "FFFF",
+            "value": 6
+        },
+        {
+            "label": "GGGG",
+            "value": 7
+        },
+        {
+            "label": "HHHH",
+            "value": 8
+        },
+        {
+            "label": "IIII",
+            "value": 9
+        },
+        {
+            "label": "JJJJ",
+            "value": 10
+        }
+    ]
+}

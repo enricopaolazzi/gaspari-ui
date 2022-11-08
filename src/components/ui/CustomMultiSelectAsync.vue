@@ -1,7 +1,6 @@
 <template>
     <div class="custom-multiselect">        
         <label 
-            for="exampleFormControlSelect1"
             v-if="label"
             class="custom-multiselect__label text-sm"
         >
@@ -18,9 +17,10 @@
             selectLabel="Seleziona"
             selectedLabel="Selezionato"
             deselectLabel="Rimuovi"
-            track-by="label"
-            @search-change="find"
+            track-by="label"            
             :internal-search="false"
+            @search-change="debouncedSearch"
+            :loading="loading"
         >     
             <template v-slot:noResult>
                 Nessun risultato.
@@ -48,9 +48,11 @@
 import { defineComponent, PropType } from 'vue';
 import VueMultiselect from 'vue-multiselect';
 import SelectOptions from '../../types/SelectOptions';
+import axios from "axios";
+import debounce from "lodash.debounce";
 
 export default defineComponent({
-    name: 'CustomMultiSelect',
+    name: 'CustomMultiSelectAsync',
     emits: ['update:selectedOptions'],    
     props: {
         label: {
@@ -60,45 +62,63 @@ export default defineComponent({
             type: String as PropType<string>,
             default: 'Seleziona opzione'
         },
-        options: {
-            type: Array as PropType<Array<SelectOptions>>,
+        optionsSearchRoute: {
+            type: String as PropType<string>,
             required: true            
         },
         selectedOptions: {
-            type: Array as PropType<Array<string> | Array<number>>,
+            type: Array as PropType<Array<SelectOptions>>,
             required: true
-        },               
+        },
     },
     components: {
         VueMultiselect
     },
     data () {
         return {  
-            value: [], // Opzioni selezionate
-            visibleOptions: [] as Array<SelectOptions> // Opzioni nella select
+            value: [],          
+            visibleOptions: [] as Array<SelectOptions>,
+            loading: false
         }
     },
     methods: {
         removeOption(option : SelectOptions) : void {
             const optionIndex : number = this.value.findIndex((_option : SelectOptions) => {
                 return _option.label === option.label && _option.value === option.value; 
-            }) 
+            })
             const duplicatedOptions = this.value;
             duplicatedOptions.splice(optionIndex, 1);
             this.value = duplicatedOptions;
             this.updateModel();
         },
-        find(e : string) : void {
-            this.visibleOptions = [...this.options].filter((option) => {
-                return option.label.toLowerCase().includes(e.toLowerCase());
-            })
+        updateModel() {            
+            this.$emit('update:selectedOptions', this.value);
         },
-        updateModel() {
-            const selected = [...this.value].map((value : SelectOptions) => {
-                return value.value
-            })
-            this.$emit('update:selectedOptions', selected);
-        },        
+        find(e : string) {            
+            if(e) {
+                this.loading = true;
+                axios.get(this.optionsSearchRoute, {
+                    params: {
+                        q: e
+                    }
+                })
+                .then((res) => {
+                    if(res.status === 200) {                        
+                        this.loading = false;
+
+                        // Aggiorno visibleOptions
+                        let visibleOptions = [...this.value];                        
+                        this.visibleOptions = visibleOptions.concat(res.data);
+                    }
+                })
+                .catch((e) => {
+                    console.log(e)
+                })                
+            }
+        },
+        debouncedSearch: debounce(function (e : string) {
+            this.find(e)
+        }, 500)
     },
     watch: {
         value() {
@@ -108,69 +128,10 @@ export default defineComponent({
         }
     },
     mounted() {
-        this.visibleOptions = this.options;
-
-        // Faccio match tra array di valori e array di oggetti option
-        let selectedOptions = [];
-        [...this.selectedOptions].forEach((selectedOption : string | number) => {
-            const val = this.options.find((option : SelectOptions) => {
-                return option.value == selectedOption
-            });
-            if(val) {
-                selectedOptions.push(val);
-            } else {
-                console.log('Option multiselect not found');
-            }
-        });
-
-        this.value = selectedOptions;
+        this.visibleOptions = [...this.selectedOptions];
+        this.value = this.selectedOptions;
     }
 });
 </script>
 
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>
-<style lang="scss">
-.custom-multiselect {
-    display: flex;
-    flex-direction: column;    
-
-    &__label {
-        color: $secondary_color;
-        margin-bottom: 10px;
-        text-transform: uppercase;
-        font-weight: 700;
-    }
-
-    &__select {        
-        color: $secondary_color;      
-
-        .multiselect__placeholder {
-            font-size: 16px;
-            color: $secondary_color;
-        }
-        
-        .multiselect__tags {
-            padding-left: 12px;
-            border-color: lighten($color: $secondary_color, $amount: 40);
-
-            .multiselect__tag {
-                background-color: $primary_color;
-                
-                i.multiselect__tag-icon:after {
-                    color: #fff
-                }
-            }
-        }
-
-        .multiselect__element {
-            .multiselect__option--selected.multiselect__option::after {
-                color: $primary_color;
-            }
-
-            .multiselect__option--highlight.multiselect__option--selected.multiselect__option::after {
-                color: #ffffff;
-            }                       
-        }
-    }
-}
-</style>
