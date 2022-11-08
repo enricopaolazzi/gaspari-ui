@@ -7,7 +7,6 @@
 			placeholder="Aggiungi un placeholder"
 			label="Lorem ipsum"	
 			v-model="name"	
-			:read-only="true"
 		></generic-input>	
 
 		<generic-input
@@ -30,7 +29,7 @@
 
 		<custom-text-area
 			label="ratataaa"
-			placeholder="Aggiungi un placeholdert"
+			placeholder="Aldo un placeholdert"
 			disabled			
 		/>
 
@@ -122,7 +121,7 @@
 			<div>{{ selectedMultiSelectOptions }}</div>									
 		</div>
 
-		<div style="padding: 8px; margin-bottom: 500px">			
+		<div style="padding: 8px">
 			<custom-multi-select-async
 				label="Seleziona"
 				placeholder="Seleziona opzione"
@@ -130,7 +129,13 @@
 				optionsSearchRoute="http://localhost:8000/data"
 			/>			
 
-			<div>{{ selectedMultiSelectAsyncOptions }}</div>									
+			<div>{{ selectedMultiSelectAsyncOptions }}</div>
+		</div>
+
+		<div style="padding: 8px; margin-bottom: 500px">
+			<custom-file-upload
+				label="File upload"
+			/>			
 		</div>
 	</div>
 </template>
@@ -147,6 +152,7 @@ import CustomSelect from './ui/CustomSelect.vue';
 import CustomMultiSelect from './ui/CustomMultiSelect.vue';
 import CustomMultiSelectAsync from './ui/CustomMultiSelectAsync.vue';
 import SelectOptions from '../types/SelectOptions';
+import CustomFileUpload from './ui/CustomFileUpload.vue';
 
 export default defineComponent({
 	name: 'HelloWorld',	
@@ -158,7 +164,8 @@ export default defineComponent({
 		CustomRadioGroup,
 		CustomSelect,
 		CustomMultiSelect,
-		CustomMultiSelectAsync
+		CustomMultiSelectAsync,
+		CustomFileUpload
 	},
 	setup() {
 		const name = ref<string>('Gianni');		

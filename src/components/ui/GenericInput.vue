@@ -46,8 +46,7 @@ export default defineComponent({
             default: false
         }
     },
-    setup(props, { emit }) {
-        
+    setup(props, { emit }) {        
         const computedValue = computed({
             get() {
                 return props.modelValue

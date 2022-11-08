@@ -9,7 +9,7 @@
 
     &__input {      
         @include input-style;               
-    }
+    }    
 
     &__read-only {
         color: $secondary_color;
