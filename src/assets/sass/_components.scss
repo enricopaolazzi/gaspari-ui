@@ -22,10 +22,10 @@
     align-items: center;    
     justify-content: center;
     border-radius: 5px;
-    padding: 10px 16px;
+    padding: 8px 16px;
     color: #FFFFFF;
     text-align: center;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 500;
     border: 2px solid transparent;
     transition: all 0.4s;
@@ -41,9 +41,9 @@
         font-size: 12px;
     }
     &.btn--large {
-        padding: 12px 18px;
-        min-width: 130px;
-        font-size: 18px;
+        padding: 10px 18px;
+        min-width: 120px;
+        font-size: 16px;
     }
 
     &.btn-primary {

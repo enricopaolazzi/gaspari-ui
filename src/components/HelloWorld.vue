@@ -156,9 +156,30 @@
 			</div>
 		</div>
 
-		<div style="padding: 8px; margin-bottom: 500px">
-								
-		</div>
+		<custom-modal
+			:isOpen="true"
+			modalTitle="Inserisci nuovo"
+			@closeModal="test"
+		>
+			<template v-slot:modal-body>
+				Lorem ipsuctetur adipisicing elit. Quia excepturi voluptatum corrupti libero officia sed a officiis, accusamus ullam sunt magnam recusandae, repudiandae reprehenderit accusantium, autem eum sint unde quasi?
+			</template>
+
+			<template v-slot:modal-footer>
+				<div style="margin-right: 15px;">
+					<custom-button
+						label="Chiudi"
+						styleType="secondary-outline"
+						@onClick="test"
+					/>
+				</div>
+				<custom-button
+					label="Inserisci"
+					styleType="primary"
+					@onClick="test"
+				/>
+			</template>
+		</custom-modal>
 	</div>
 </template>
 
@@ -176,6 +197,8 @@ import CustomMultiSelectAsync from './ui/CustomMultiSelectAsync.vue';
 import SelectOptions from '../types/SelectOptions';
 import CustomFileUpload from './ui/CustomFileUpload.vue';
 import CustomMultipleFileUpload from './ui/CustomMultipleFileUpload.vue';
+import CustomModal from './ui/CustomModal.vue';
+import CustomButton from './ui/CustomButton.vue';
 
 export default defineComponent({
 	name: 'HelloWorld',	
@@ -190,6 +213,8 @@ export default defineComponent({
 		CustomMultiSelectAsync,
 		CustomFileUpload,
 		CustomMultipleFileUpload,
+		CustomModal,
+		CustomButton
 	},
 	setup() {
 		const name = ref<string>('Gianni');		
@@ -231,7 +256,7 @@ export default defineComponent({
 		]);
 
 		const test = (e) => {
-			console.log(e)
+			console.log('eeeee', e)
 		}
 
 		const selectedFile = ref<File>(null);
