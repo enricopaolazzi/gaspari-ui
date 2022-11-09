@@ -132,16 +132,38 @@
 			<div>{{ selectedMultiSelectAsyncOptions }}</div>
 		</div>
 
-		<div style="padding: 8px; margin-bottom: 500px">
+		<div style="padding: 8px;">
 			<custom-file-upload
 				label="File upload"
-			/>			
+				v-model:file="selectedFile"
+			/>		
+
+			<div v-if="selectedFile">
+				{{ selectedFile.name }}
+			</div>
+		</div>
+
+		<div style="padding: 8px;">
+			<custom-multiple-file-upload
+				label="Multiple File upload"
+				routeGetFiles="blabla"
+				routePostFile="blabla"
+				routeDeleteFile="blabla"
+			/>
+
+			<div v-for="(file, index) in selectedFiles" :key="index">
+				{{ file[1].name }}
+			</div>
+		</div>
+
+		<div style="padding: 8px; margin-bottom: 500px">
+								
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import GenericInput from "./ui/GenericInput.vue";
 import CustomTextArea from "./ui/CustomTextArea.vue";
 import CustomCheckbox from "./ui/CustomCheckbox.vue";
@@ -153,6 +175,7 @@ import CustomMultiSelect from './ui/CustomMultiSelect.vue';
 import CustomMultiSelectAsync from './ui/CustomMultiSelectAsync.vue';
 import SelectOptions from '../types/SelectOptions';
 import CustomFileUpload from './ui/CustomFileUpload.vue';
+import CustomMultipleFileUpload from './ui/CustomMultipleFileUpload.vue';
 
 export default defineComponent({
 	name: 'HelloWorld',	
@@ -165,7 +188,8 @@ export default defineComponent({
 		CustomSelect,
 		CustomMultiSelect,
 		CustomMultiSelectAsync,
-		CustomFileUpload
+		CustomFileUpload,
+		CustomMultipleFileUpload,
 	},
 	setup() {
 		const name = ref<string>('Gianni');		
@@ -210,17 +234,23 @@ export default defineComponent({
 			console.log(e)
 		}
 
+		const selectedFile = ref<File>(null);
+
+		const selectedFiles = ref<FormData>(null);
+		
 		return { 
 			name, 
 			selectedValues, 
 			selected, 
 			test, 
-			heroes, 
+			heroes,
 			options, 
 			selectedRadioValue, 
 			selectedOption, 
 			selectedMultiSelectOptions ,
-			selectedMultiSelectAsyncOptions
+			selectedMultiSelectAsyncOptions,
+			selectedFile,
+			selectedFiles
 		}
 	}
 });

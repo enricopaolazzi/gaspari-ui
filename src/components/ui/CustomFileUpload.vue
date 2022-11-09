@@ -26,7 +26,7 @@
                     <div v-else class="generic-input__input-file__file__file-name">
                         {{ currentFile.name }}
 
-                        <div class="generic-input__input-file__file__file-name__cancel">
+                        <div @click="deleteFile" class="generic-input__input-file__file__file-name__cancel">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#FFFFFF" class="cancel">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                             </svg>
@@ -53,9 +53,13 @@ export default defineComponent({
             type: String as PropType<string>,
             required: false,
             default: 'Nessun file selezionato'
-        }       
+        },
+        file: {
+            type: File as PropType<File>,
+            required: false
+        }      
     },
-    setup() {
+    setup(props, context) {
         const inputFileRef = ref(null);
 
         const handleButtonClick = () => {
@@ -66,14 +70,24 @@ export default defineComponent({
         const handleInputChange = ({ target }) => {
             if(target && target.files.length > 0) {
                 currentFile.value = target.files[0];
+                context.emit('update:file', target.files[0]);
+
+                // Svuoto la input
+                inputFileRef.value.value = '';
             }
-        }        
+        }       
+        
+        const deleteFile = () => {
+            currentFile.value = null;
+            context.emit('update:file', null);
+        }
 
         return {
             inputFileRef,
             handleButtonClick,
             handleInputChange,
             currentFile,
+            deleteFile
         }
     }
 })
@@ -101,6 +115,9 @@ export default defineComponent({
             border-bottom-left-radius: 5px;
             font-weight: 500;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         &__file {
@@ -117,12 +134,13 @@ export default defineComponent({
 
             &__file-name {
                 font-weight: 500;   
-                position: relative;      
+                position: relative;   
+                padding-right: 28px;   
                 
                 &__cancel {
                     position: absolute;
                     right: 0;
-                    top: 0;
+                    top: 50%;
                     height: 25px;
                     width: 25px;
                     border-radius: 50%;
@@ -130,8 +148,18 @@ export default defineComponent({
                     display: flex;
                     align-items: center;
                     justify-content: center;   
-                    // transform: translateY(-50%);  
-                    cursor: pointer;               
+                    transform: translateY(-50%);  
+                    cursor: pointer;  
+                    transition: background-color 0.12s ease;
+
+                    &:hover {
+                        background-color: darken(red, 15%);
+                    }
+                    
+                    .cancel {
+                        height: 20px;
+                        width: 20px;
+                    }
                 }
             }
         }
