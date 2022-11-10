@@ -84,7 +84,7 @@ export default defineComponent({
             required: true
         },
     },
-    setup(props, context) {
+    setup(props) {
         const inputFileRef = ref(null);
 
         const handleClick = () => {
@@ -120,6 +120,7 @@ export default defineComponent({
                     loading.value = false;
                 })
                 .catch(error => {
+                    console.log(error);
                     loading.value = false;
                 })
         }
@@ -133,7 +134,7 @@ export default defineComponent({
         const getFiles = () => {
             axios.get(props.routeGetFiles) 
                 .then((res) => {
-                    console.log('okk')
+                    console.log('okk', res)
                 })
                 .catch((error) => {
                     console.log(error);
