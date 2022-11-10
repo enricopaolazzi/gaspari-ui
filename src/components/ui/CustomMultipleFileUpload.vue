@@ -10,7 +10,7 @@
                 v-for="(file, index) in fileList"
                 :key="index"
             >
-                {{ file.name }}
+                {{ file.original_name + '.' + file.extension }}
 
                 <div @click="deleteFile(index)" class="item-cancel">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#FFFFFF" class="cancel">
@@ -25,42 +25,64 @@
             class="generic-input__input-file--hidden"
             ref="inputFileRef"
             @change="handleInputChange"
+            multiple
         >
 
-        <custom-button
-            label="Carica"
-            styleType="primary"
-            :disabled="false"
-            @onClick="handleClick"
-        >
-            <template v-slot:slot-left>
-                <svg style="margin-right: 8px" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" width="16px" height="16px">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-                </svg>
-            </template>
-        </custom-button>
+        <div class="flexAligned">
+            <div style="margin-right: 10px;">
+                <custom-button
+                    label="Carica"
+                    styleType="primary"
+                    :disabled="false"
+                    @onClick="handleClick"
+                >
+                    <template v-slot:slot-left>
+                        <svg style="margin-right: 8px" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" width="16px" height="16px">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                        </svg>
+                    </template>            
+                </custom-button>
+            </div>
+            
+            <custom-loader
+                :loading="loading"
+                size="small"
+            />
+        </div>
+
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from "vue";
+import { defineComponent, onMounted, PropType, ref } from "vue";
 import CustomButton from "./CustomButton.vue";
+import axios from "axios";
+import FileInterface from "../../types/FileInterface";
+import CustomLoader from "./CustomLoader.vue";
 
 export default defineComponent({
     name: 'CustomMultipleFileUpload',
     components: {
-        CustomButton
+        CustomButton,
+        CustomLoader
     },
     props: {
         label: {
             type: String as PropType<string>,
             required: false
         },
-        files: {
-            type: FormData as PropType<FormData>,
-            required: false,
-
-        }
+        routeGetFiles: {
+            type: String as PropType<string>,
+            required: true
+        },
+        routePostFiles: {
+            type: String as PropType<string>,
+            required: true
+        },
+        routeDeleteFile: {
+            type: String as PropType<string>,
+            required: true
+        },
     },
     setup(props, context) {
         const inputFileRef = ref(null);
@@ -68,43 +90,76 @@ export default defineComponent({
         const handleClick = () => {
             inputFileRef.value.click();          
         }
-
-        const fileList = ref<Array<File>>([]);
-        const handleInputChange = ({ target }) => {
+        
+        const handleInputChange = ({ target }) => {            
             if(target && target.files.length > 0) {
-                fileList.value.push(target.files[0]);         
-                
-                emitFiles()
-
+                let formData = new FormData();                  
+                for(let i = 0; i < target.files.length; i++) {
+                    const file : File = target.files[i];
+                    formData.append('files', file);                     
+                }
+                postFiles(formData);                                          
                 // Svuoto la input
                 inputFileRef.value.value = '';
             }
         }
 
+        const fileList = ref<Array<FileInterface>>([]);
+        const loading = ref<boolean>(false);
+        const postFiles = (formData : FormData) => {
+            console.log(formData);
+            loading.value = true;
+
+            axios.post(props.routePostFiles, formData)
+                .then(res => {
+                    if(res.data.success) {
+                        alert('success');                        
+                    } else {
+                        alert('error')
+                    }
+                    loading.value = false;
+                })
+                .catch(error => {
+                    loading.value = false;
+                })
+        }
+
         const deleteFile = (index : number) => {
             if(fileList.value.length > 0) {
                 fileList.value.splice(index, 1);
-
-                emitFiles();
             }
         }
 
-        const emitFiles = () => {
-            // Prepare form data
-            let formData = new FormData();
-            fileList.value.forEach(file => {
-                formData.append('files', file);
-            })
-            context.emit('update:files', formData);
-        }      
+        const getFiles = () => {
+            axios.get(props.routeGetFiles) 
+                .then((res) => {
+                    console.log('okk')
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
 
+        // const splitFileName = (file : File) => {
+        //     const splitted = file.name.split('.');
+        //     return {
+        //         original_name: splitted[0],
+        //         extension: splitted[1]
+        //     }        
+        // }
+
+        onMounted(() => {
+            getFiles()
+        })
+        
         return {
             handleClick,
             handleInputChange,
             inputFileRef,
             fileList,
             deleteFile,
-            emitFiles
+            getFiles,
+            loading
         }
     }
 });
@@ -159,5 +214,10 @@ export default defineComponent({
             }
         }
     }
+
+    .flexAligned {
+        display: flex;
+        align-items: center;
+    }    
 }
 </style>

@@ -147,7 +147,7 @@
 			<custom-multiple-file-upload
 				label="Multiple File upload"
 				routeGetFiles="blabla"
-				routePostFile="blabla"
+				routePostFiles="blabla"
 				routeDeleteFile="blabla"
 			/>
 
@@ -157,9 +157,9 @@
 		</div>
 
 		<custom-modal
-			:isOpen="true"
+			:isOpen="isModalOpen"
 			modalTitle="Inserisci nuovo"
-			@closeModal="test"
+			@closeModal="openCloseModal"
 		>
 			<template v-slot:modal-body>
 				Lorem ipsuctetur adipisicing elit. Quia excepturi voluptatum corrupti libero officia sed a officiis, accusamus ullam sunt magnam recusandae, repudiandae reprehenderit accusantium, autem eum sint unde quasi?
@@ -170,7 +170,7 @@
 					<custom-button
 						label="Chiudi"
 						styleType="secondary-outline"
-						@onClick="test"
+						@onClick="openCloseModal"
 					/>
 				</div>
 				<custom-button
@@ -180,11 +180,19 @@
 				/>
 			</template>
 		</custom-modal>
+
+		<div style="padding: 8px;">
+			<custom-button
+				label="Apri modale"
+				@onClick="openCloseModal"
+			/>
+		</div>
+
 	</div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, ref } from 'vue';
 import GenericInput from "./ui/GenericInput.vue";
 import CustomTextArea from "./ui/CustomTextArea.vue";
 import CustomCheckbox from "./ui/CustomCheckbox.vue";
@@ -262,6 +270,11 @@ export default defineComponent({
 		const selectedFile = ref<File>(null);
 
 		const selectedFiles = ref<FormData>(null);
+
+		const isModalOpen = ref<boolean>(false);
+		const openCloseModal = () => {
+			isModalOpen.value = !isModalOpen.value;
+		}
 		
 		return { 
 			name, 
@@ -275,7 +288,9 @@ export default defineComponent({
 			selectedMultiSelectOptions ,
 			selectedMultiSelectAsyncOptions,
 			selectedFile,
-			selectedFiles
+			selectedFiles,
+			isModalOpen,
+			openCloseModal
 		}
 	}
 });
