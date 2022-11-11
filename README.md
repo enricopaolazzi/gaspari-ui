@@ -1,8 +1,8 @@
-# test-gestionale
+# Gaspari ui
 
 ## Project setup
 ```
-npm install
+npm install gaspari-ui
 ```
 
 ### Compiles and hot-reloads for development

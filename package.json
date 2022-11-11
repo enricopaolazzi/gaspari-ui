@@ -4,12 +4,16 @@
   "version": "0.0.1",
   "license": "MIT",
   "private": false,
-  "main": "dist/vue-form-builder.min.js",
+  "main": "dist/js/app.e60fe04a.js",
   "homepage": "https://github.com/enricopaolazzi/gaspari-ui",
   "repository": {
-      "type": "git",
-      "url": "git+https://github.com/enricopaolazzi/gaspari-ui.git"
-  },  
+    "type": "git",
+    "url": "git+https://github.com/enricopaolazzi/gaspari-ui.git"
+  },
+  "keywords": [
+    "vuejs",
+    "gaspari-ui"
+  ],
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -20,7 +24,8 @@
     "core-js": "^3.8.3",
     "lodash.debounce": "^4.0.8",
     "vue": "^3.2.13",
-    "vue-multiselect": "^3.0.0-alpha.2"
+    "vue-multiselect": "^3.0.0-alpha.2",
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.4.0",

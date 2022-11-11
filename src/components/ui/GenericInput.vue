@@ -60,22 +60,3 @@ export default defineComponent({
     }
 })
 </script>
-
-<style lang="scss">
-.slot-price {
-    color: $secondary_color;
-    position: absolute;
-    left: 10px;    
-    top: 50%;
-    transform: translateY(-50%);
-    font-weight: 500;
-
-    & ~ .generic-input__input {
-        padding-left: 40px;
-    }
-}
-
-.generic-input .input-container {
-    position: relative;
-}
-</style>

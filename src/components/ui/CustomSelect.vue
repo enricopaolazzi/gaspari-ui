@@ -68,22 +68,3 @@ export default defineComponent({
     }
 });
 </script>
-
-<style scoped lang="scss">
-.custom-select {
-    display: flex;
-    flex-direction: column;
-
-    &__label {
-        color: $secondary_color;
-        margin-bottom: 10px;
-        text-transform: uppercase;
-        font-weight: 700;
-    }
-
-    &__select {
-        @include input-style;
-        background-color: #fff;        
-    }
-}
-</style>
