@@ -1,7 +1,15 @@
 {
-  "name": "test-gestionale",
-  "version": "0.1.0",
-  "private": true,
+  "name": "gaspari-ui",
+  "author": "Enrico Paolazzi",
+  "version": "0.0.1",
+  "license": "MIT",
+  "private": false,
+  "main": "dist/vue-form-builder.min.js",
+  "homepage": "https://github.com/enricopaolazzi/gaspari-ui",
+  "repository": {
+      "type": "git",
+      "url": "git+https://github.com/enricopaolazzi/gaspari-ui.git"
+  },  
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
